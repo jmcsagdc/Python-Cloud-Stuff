@@ -28,10 +28,10 @@ print result
 
 items=result['items']
 
-for key in items:
-    status=key['status']
-    name=key['name']
-    print name, key
+for instance in items:
+    status=instance['status']
+    name=instance['name']
+    print name, status
 
 # Prints something like this:
 '''
