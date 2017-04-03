@@ -15,8 +15,6 @@ result = service.instances().list(project='jason-v', zone='us-central1-c').execu
 
 from tabulate import tabulate
 
-
-
 # Take a look at what you get back. It's a lot.
 #print result
 
@@ -24,7 +22,7 @@ from tabulate import tabulate
 row=[]
 myTable=[]
 items=result['items']
-#print 'name\t\t\tstatus\t\t\tnetwork'
+
 for instance in items:
     # for each row, start clean
     row=[]
@@ -33,18 +31,21 @@ for instance in items:
     metadata=instance['metadata']
     items_l=metadata['items']
     myNetwork=items_l[1]
-    #print name+'\t\t\t'+status+'\t\t\t'+myNetwork['value']
+    myType=items_l[0]
+    tags=instance['tags']
+    if 'desktop' not in myType:
+        permissions=tags.get('items', 'No additional permissions')
+    
     # build a single row
     row.append(str(name))
     row.append(str(status))
     row.append(str(myNetwork['value']))
-    # Not like the below...no need for the quotes...
-    #row.append('\''+str(name)+'\'')
-    #row.append('\''+str(status)+'\'')
-    #row.append('\''+str(myNetwork['value'])+'\'')
-    # Not like this, either...not really creating the list of lists this way, just a list of string rows.
-    #row.append('\''+str(name)+'\''+', '+'\''+str(status)+'\''+', '+'\''+str(myNetwork['value'])+'\'')
+    row.append(str(myType['value']))
+    row.append(tags['fingerprint'])
+    row.append(permissions)
     # add the row to the table
     myTable.append(row)
-    
-print tabulate(myTable, headers=["name","status","network"])
+    #for thing in instance:
+        #print thing
+        #print(thing, instance[thing])
+print tabulate(myTable, headers=["name","status","network","type","fingerprint","permissions"])
