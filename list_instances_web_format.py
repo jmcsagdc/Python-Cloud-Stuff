@@ -1,3 +1,6 @@
+print "Check comments for error hints"
+# did you remember to: export GOOGLE_APPLICATION_CREDENTIALS=path-to-google-credentials.json
+
 from oauth2client.client import GoogleCredentials
 credentials = GoogleCredentials.get_application_default()
 from googleapiclient.discovery import build
